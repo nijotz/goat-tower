@@ -31,9 +31,9 @@ location = aliased(Actor)
 children = aliased(Actor)
 command_queries['location_children'] = \
     session.query(Command).\
-    join(location).\
+    join(children).\
+    join(location, location.id == children.parent_id).\
     join(Actor, location.id == Actor.parent_id).\
-    join(children, location.id == children.parent_id).\
     filter(Actor.id == bindparam('actor_id')).\
     filter(Command.actor_id == children.id)
 
