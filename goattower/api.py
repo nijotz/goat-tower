@@ -1,8 +1,8 @@
 import json
 import re
-from jinja2 import Template, Environment
+from jinja2 import Environment
 from sqlalchemy.orm import sessionmaker
-from models import engine, Actor, PlayerText
+from models import engine, Actor, Attribute, PlayerText
 
 
 def get_actor_id_by_name(name):

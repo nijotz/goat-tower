@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -40,13 +40,17 @@ class Actor(Base):
     def is_player(self):
         return self.user is not None
 
+    def get_attribute(self, name):
+        return self.attributes.filter(Attribute.key == name).one().value
 
-class ActorAttribute(Base):
 
-    __tablename__ = 'actorattribute'
+class Attribute(Base):
+
+    __tablename__ = 'attribute'
 
     id = Column(Integer, primary_key=True)
     actor_id = Column(Integer, ForeignKey('actor.id'))
+    actor = relationship('Actor', backref=backref('attributes', lazy='dynamic'))
     key = Column(String)
     value = Column(String)
 
@@ -73,8 +77,9 @@ class Command(Base):
 
     id = Column(Integer, primary_key=True)
     regex = Column(String)
-    actor_id = Column(Integer, ForeignKey('actor.id'))
     code = association_proxy('code_assocs', 'code')
+    actor_id = Column(Integer, ForeignKey('actor.id'))
+    actor = relationship('Actor', backref='commands')
 
     def __init__(self, regex, actor_id):
         self.regex = regex

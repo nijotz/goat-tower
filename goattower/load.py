@@ -15,6 +15,7 @@ def load_data(data):
     from models import engine
     Session = sessionmaker(bind=engine)
     session = Session()
+    models.init_db()
 
     for actor in data:
         new_actor = models.Actor(name=actor['name'])
@@ -43,10 +44,21 @@ def load_data(data):
                 logger.debug('Adding code: {} {}'.format(new_code.method, new_code.args))
                 session.add(new_code)
                 session.commit()
-            
+
             for command in commands:
                 for cd in code:
                     command.code.append(cd)
+            session.commit()
+
+        for key, value in actor.get('attributes', {}).iteritems():
+            new_attr = models.Attribute(
+                actor_id=new_actor.id,
+                key=key,
+                value=value)
+            logger.debug('Adding attribute: {} - {}'.format(new_attr.key, new_attr.value))
+            session.add(new_attr)
+            session.commit()
+
 
 def load_json(json_str):
     load_data(json.loads(json_str))

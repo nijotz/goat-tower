@@ -63,12 +63,12 @@ def handle_text(actor_id, text):
             run_code(actor_id, *matches[0])
             return
 
-    class fuck(object):
+    class fake_matchgroup(object):
         def groupdict(self):
             return
 
     # We have no matches, just shout at user
-    api.send_text(actor_id, 'Huh?', fuck())
+    api.send_text(actor_id, 'Huh?', fake_matchgroup())
 
 
 def get_text(actor_id):
@@ -84,7 +84,8 @@ def get_text(actor_id):
 def run_code(actor_id, command, match):
     context = {
         'origin': actor_id,
-        'match': match.groupdict()
+        'match': match.groupdict(),
+        'actor': command.actor
     }
     for code in command.code:
         run_method(code.method, code.args, context)
