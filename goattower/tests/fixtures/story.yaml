@@ -45,7 +45,6 @@
 - name: "nijotz"
   id: 3
   parent_id: 1
-  is_player: True
   commands:
     - regex:
         - "^say (?P<text>(.*)) to (?P<actor_name>(.*))$"

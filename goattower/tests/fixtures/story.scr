@@ -1,0 +1,7 @@
+>>> look
+You are.*north.*
+>>> north
+>>> look
+.*tower.*
+>>> hi
+HELLO.*
