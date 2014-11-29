@@ -1,5 +1,4 @@
 - name: "Test Location #1"
-  id: 1
   commands:
     - regex:
         - look
@@ -20,7 +19,6 @@
           - 2
 
 - name: "Test Location #2"
-  id: 2
   commands:
     - regex:
         - look
@@ -45,7 +43,7 @@
 
 - name: "nijotz"
   id: 3
-  parent_id: 1
+  parent: "Test Location #1"
   commands:
     - regex:
         - "^say (?P<text>.*) to (?P<actor_name>.*)$"
@@ -56,7 +54,7 @@
 
 - name: "goat"
   id: 4
-  parent_id: 2
+  parent: "Test Location #2"
   commands:
     - regex:
         - "(?i)^(hi|hello)$"
@@ -69,7 +67,7 @@
 
 - name: "button"
   id: 5
-  parent_id: 2
+  parent: "Test Location #2"
   commands:
     - regex:
         - "(?i)^(?P<verb>push|press)( the)?( big)?( red)? button$"

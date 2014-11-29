@@ -19,8 +19,10 @@ def load_data(data):
 
     for actor in data:
         new_actor = models.Actor(name=actor['name'])
-        new_actor.id = actor['id']
-        new_actor.parent_id = actor.get('parent_id', None)
+        parent_name = actor.get('parent', None)
+        if parent_name:
+            parent = session.query(models.Actor).filter(models.Actor.name == parent_name).one()
+            new_actor.parent_id = parent.id
         logger.debug('Adding actor: {}'.format(new_actor.name))
         session.add(new_actor)
         session.commit()
