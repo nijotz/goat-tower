@@ -31,6 +31,12 @@ class API(object):
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
+    def inc_attr(self, actor_name, attribute, context):
+        actor = self.session.query(Actor).filter(Actor.name == actor_name).one()
+        attribute = self.session.query(Attribute).filter(Attribute.actor_id == actor.id).one()
+        attribute.value = int(attribute.value) + 1
+        self.session.commit()
+
     def send_text(self, actor_id, text, context):
         actor = self.session.query(Actor).get(actor_id)
         if actor.is_player:
