@@ -26,11 +26,12 @@
         - send_text:
           - "{{origin}}"
           - >
-            "To the south is a path to a canyon.  A great tower stands to the
+            'To the south is a path to a canyon.  A great tower stands to the
             north of you.  You squint to try and make out who or what is on the
             tower.  You think you see... goats??  You realize there is a goat
-            under a tree staring at you.  Next to the goat is a pole with a big
-            red button on the top with a skull and crossbones printed on it."
+            under a tree staring at you.  Hanging around her neck is a sign
+            that says "Hello!"  Next to the goat is a post with a big red
+            button on the top with a skull and crossbones printed on it.'
     - regex:
         - "(?i)^(?P<verb>go|walk|explore)? ?south"
       code:
@@ -57,7 +58,7 @@
   parent: "Test Location #2"
   commands:
     - regex:
-        - "(?i)^(hi|hello)$"
+        - "(?i).*(^| )(ahi|ahello)"
       code:
         - send_text:
           - "{{origin}}"
