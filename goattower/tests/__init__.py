@@ -1,10 +1,9 @@
 import re
 from unittest import TestCase
 
-from sqlalchemy import create_engine
+import pexpect
 
-from goattower import models
-from goattower.engine import get_text, handle_text
+from goattower import db, engine, init, settings
 from goattower.models import Base
 from goattower.load import load
 
@@ -12,30 +11,31 @@ from goattower.load import load
 class BaseTestCase(TestCase):
 
     def setUp(self):
-        engine = create_engine('postgresql+psycopg2://@/goattower-tests')
-        models.engine = engine
-        Base.metadata.drop_all(engine)
-        Base.metadata.create_all(engine)
-        load('goattower/tests/fixtures/story.yaml', 'yaml')
+        settings.TESTING = True
+        init()
+        Base.metadata.drop_all(db.engine)
+        Base.metadata.create_all(db.engine)
+        load('goattower/tests/fixtures/story.yaml', 'yaml', db.session)
 
 
 class APIfTestCase(BaseTestCase):
 
     def test_api_script(self):
-        return  #TODO: fix, test database is being used by pexpect command
         script = open('goattower/tests/fixtures/story.scr')
         for line in script:
             line = line.rstrip()
             if line.startswith('>>> '):
-                handle_text(line.replace('>>> ', ''))
+                while engine.get_text(3):
+                    pass
+                engine.handle_text(3, line.replace('>>> ', ''))
             else:
-                self.assertIsNotNone(re.match(line, get_text(3)))
+                text = engine.get_text(3)[0]
+                self.assertIsNotNone(re.match(line, text))
 
-'''
+
 class REPLTestCase(BaseTestCase):
 
     def test_repl_script(self):
-        return  #TODO: fix, test database is being used by pexpect command
         script = open('goattower/tests/fixtures/story.scr')
         repl = pexpect.spawn('goattower/scripts/repl.sh 3', timeout=5)
         for line in script:
@@ -45,4 +45,3 @@ class REPLTestCase(BaseTestCase):
                 repl.sendline(line.replace('>>> ', ''))
             else:
                 repl.expect(line)
-'''

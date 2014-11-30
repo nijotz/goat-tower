@@ -1,10 +1,8 @@
-from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('postgresql+psycopg2://@/goattower')
 
 Base = declarative_base()
 
@@ -114,7 +112,3 @@ class PlayerText(Base):
     def __init__(self, actor_id, text):
         self.actor_id = actor_id
         self.text = text
-
-
-def init_db():
-    Base.metadata.create_all(engine)

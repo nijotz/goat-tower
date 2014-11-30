@@ -6,8 +6,8 @@
         - send_text:
           - "{{origin}}"
           - >
-            "You are in a canyon.  The cave that brought you to this world has
-            collapsed.  To north you see a tower."
+            You are in a canyon.  The cave that brought you to this world has
+            collapsed.  To the north you see a tower.
     - regex:
         - "(?i)^(?P<verb>go|walk|explore)? ?north"
       code:
@@ -26,14 +26,14 @@
         - send_text:
           - "{{origin}}"
           - >
-            'To the south is a path to a canyon.  A great tower stands to the
+            To the south is a path to a canyon.  A great tower stands to the
             north of you.  You squint to try and make out who or what is on the
             tower.  You think you see... goats??  You realize there is a goat
             under a tree staring at you.  Hanging around her neck is a sign
             that says "Hello!"  Next to the goat is a post with a big red
-            button on the top with a skull and crossbones printed on it.'
+            button on the top with a skull and crossbones printed on it.
     - regex:
-        - "(?i)^(?P<verb>go|walk|explore)? ?south"
+        - (?i)^(?P<verb>go|walk|explore)? ?south
       code:
         - send_text:
           - "{{origin}}"
@@ -42,45 +42,45 @@
           - "{{origin}}"
           - 1
 
-- name: "nijotz"
+- name: nijotz
   id: 3
   parent: "Test Location #1"
   commands:
     - regex:
-        - "^say (?P<text>.*) to (?P<actor_name>.*)$"
+        - ^say (?P<text>.*) to (?P<actor_name>.*)$
       code:
         - send_text:
           - "{{match.actor_name|get_actor_id_by_name}}"
           - "{{match.text}}"
 
-- name: "goat"
+- name: goat
   id: 4
   parent: "Test Location #2"
   commands:
     - regex:
-        - "(?i).*(^| )(ahi|ahello)"
+        - (?i).*(^| )(hi|hello)
       code:
         - send_text:
           - "{{origin}}"
-          - "HELLO THERE! I AM {{ actor.name|upper }}{{ actor.get_attribute('number') }}. I RUN ON GRASS."
+          - HELLO THERE! I AM {{ actor.name|upper }}{{ actor.get_attribute('number') }}. I RUN ON GRASS.
   attributes:
     number: 01
 
-- name: "button"
+- name: button
   id: 5
   parent: "Test Location #2"
   commands:
     - regex:
-        - "(?i)^(?P<verb>push|press)( the)?( big)?( red)? button$"
+        - (?i)^(?P<verb>push|press)( the)?( big)?( red)? button$
       code:
         - send_text:
           - "{{origin}}"
           - >
-            "There's a sudden flash and a loud boom.  You recover from the
+            There's a sudden flash and a loud boom.  You recover from the
             disorientation to discover you're covered in a warm fluid.  Wiping
             the fluid from your eyes and looking down at yourself you see it's
             the blood of the goat.  But there's another goat standing in its
-            place... in the pool of blood of its predecessor."
+            place... in the pool of blood of its predecessor.
         - inc_attr:
-          - "goat"
-          - "number"
+          - goat
+          - number

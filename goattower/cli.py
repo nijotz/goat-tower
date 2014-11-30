@@ -1,6 +1,9 @@
+import os
 import sys
-from engine import handle_text, get_text
+sys.path.append(os.path.abspath(os.path.join(__file__, '../..')))
+from goattower import engine, init
 
-handle_text(sys.argv[1], ' '.join(sys.argv[2:]))
-for text in get_text(sys.argv[1]):
+init()
+engine.handle_text(sys.argv[1], ' '.join(sys.argv[2:]))
+for text in engine.get_text(sys.argv[1]):
     print text

@@ -1,7 +1,6 @@
 import logging
 import json
-import sys
-from sqlalchemy.orm import sessionmaker
+
 import models
 
 
@@ -11,11 +10,7 @@ logger = logging.getLogger('goattower.load')
 # randomly try to insert a command that foreign keys to an actor that isn't
 # inserted yet, despite the loop adding objects to the sesion in the right
 # order.  To fix, I just commit after every add.
-def load_data(data):
-    from models import engine
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    models.init_db()
+def load_data(data, session):
 
     for actor in data:
         new_actor = models.Actor(name=actor['name'])
@@ -62,31 +57,34 @@ def load_data(data):
             session.commit()
 
 
-def load_json(json_str):
-    load_data(json.loads(json_str))
+def load_json(json_str, session):
+    load_data(json.loads(json_str), session)
 
-def load_yaml(yaml_str):
+def load_yaml(yaml_str, session):
     import yaml
-    load_data(yaml.load(yaml_str))
+    load_data(yaml.load(yaml_str), session)
 
 parser_map = {
     'yaml': load_yaml,
     'json': load_json,
 }
 
-def load(data_file, data_type):
+def load(data_file, data_type, session):
     parser = parser_map.get(data_type, None)
-    parser(open(data_file).read())
+    parser(open(data_file).read(), session)
 
 def main():
-    import argparse
-    argparse # TODO: eventually..
+    import os
+    import sys
+    sys.path.append(os.path.abspath(os.path.join(__file__, '../..')))
+    from goattower import db, init
+    init()
 
     data_file = sys.argv[1]
     file_type = sys.argv[2]
     parser = parser_map.get(file_type, None)
     if parser:
-        parser(open(data_file).read())
+        parser(open(data_file).read(), db.session)
     else:
         print 'File type "{}" not supported'.format(file_type)
         sys.exit(1)

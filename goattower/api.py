@@ -1,8 +1,7 @@
 import json
 import re
 from jinja2 import Environment
-from sqlalchemy.orm import sessionmaker
-from models import engine, Actor, Attribute, PlayerText
+from models import Actor, Attribute, PlayerText
 
 
 def get_actor_id_by_name(name):
@@ -11,25 +10,19 @@ def get_actor_id_by_name(name):
     return 4
 
 
-def make_environment():
-    environment = Environment()
-    environment.filters['get_actor_id_by_name'] = get_actor_id_by_name
-    return environment
-
-
-def run_method(method_name, args_string, context):
-    environment = make_environment()
-    template = environment.from_string(args_string)
-    args_json_string = template.render(context)
-    getattr(api, method_name)(*json.loads(args_json_string), context=context)
-
-
 class API(object):
 
     def __init__(self):
-        # start session
-        Session = sessionmaker(bind=engine)
-        self.session = Session()
+        self.environment = Environment()
+        self.environment.filters['get_actor_id_by_name'] = get_actor_id_by_name
+
+    def init(self, session):
+        self.session = session
+
+    def run_method(self, method_name, args_string, context):
+        template = self.environment.from_string(args_string)
+        args_json_string = template.render(context)
+        getattr(self, method_name)(*json.loads(args_json_string), context=context)
 
     def inc_attr(self, actor_name, attribute, context):
         actor = self.session.query(Actor).filter(Actor.name == actor_name).one()
@@ -61,10 +54,7 @@ class API(object):
                 run_code(context['origin'], *matches[0])
                 return
 
-
     def update_location(self, actor_id, location_id, context):
         actor = self.session.query(Actor).get(actor_id)
         actor.parent_id = location_id
         self.session.commit()
-
-api = API()
