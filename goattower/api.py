@@ -54,7 +54,8 @@ class API(object):
                 run_code(context['origin'], *matches[0])
                 return
 
-    def update_location(self, actor_id, location_id, context):
+    def update_location(self, actor_id, location, context):
         actor = self.session.query(Actor).get(actor_id)
-        actor.parent_id = location_id
+        location = self.session.query(Actor).filter(Actor.name == location).one()
+        actor.parent_id = location.id
         self.session.commit()

@@ -4,7 +4,7 @@ from unittest import TestCase
 import pexpect
 
 from goattower import db, engine, init, settings
-from goattower.models import Base
+from goattower.models import Base, Actor
 from goattower.load import load
 
 
@@ -22,14 +22,15 @@ class APIfTestCase(BaseTestCase):
 
     def test_api_script(self):
         script = open('goattower/tests/fixtures/story.scr')
+        actor = db.session.query(Actor).filter(Actor.name == 'nijotz').one()
         for line in script:
             line = line.rstrip()
             if line.startswith('>>> '):
-                while engine.get_text(3):
+                while engine.get_text(actor.id):
                     pass
-                engine.handle_text(3, line.replace('>>> ', ''))
+                engine.handle_text(actor.id, line.replace('>>> ', ''))
             else:
-                text = engine.get_text(3)[0]
+                text = engine.get_text(actor.id)[0]
                 self.assertIsNotNone(re.match(line, text))
 
 

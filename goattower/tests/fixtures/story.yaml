@@ -16,7 +16,7 @@
           - "{% set verb=match.verb or 'go' %}You {{verb}} north"
         - update_location:
           - "{{origin}}"
-          - 2
+          - "Test Location #2"
 
 - name: "Test Location #2"
   commands:
@@ -40,10 +40,9 @@
           - "{% set verb=match.verb or 'go' %}You {{verb}} south"
         - update_location:
           - "{{origin}}"
-          - 1
+          - "Test Location #1"
 
 - name: nijotz
-  id: 3
   parent: "Test Location #1"
   commands:
     - regex:
@@ -54,7 +53,6 @@
           - "{{match.text}}"
 
 - name: goat
-  id: 4
   parent: "Test Location #2"
   commands:
     - regex:
@@ -67,7 +65,6 @@
     number: 01
 
 - name: button
-  id: 5
   parent: "Test Location #2"
   commands:
     - regex:
