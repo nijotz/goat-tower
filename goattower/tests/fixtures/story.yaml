@@ -41,6 +41,38 @@
         - update_location:
           - "{{origin}}"
           - "Test Location #1"
+    - regex:
+        - "(?i)^(?P<verb>go|walk|explore)? ?north"
+      code:
+        - send_text:
+          - "{{origin}}"
+          - "{% set verb=match.verb or 'go' %}You {{verb}} north"
+        - update_location:
+          - "{{origin}}"
+          - "Test Location #3"
+
+- name: "Test Location #3"
+  commands:
+    - regex:
+        - look
+      code:
+        - send_text:
+          - "{{origin}}"
+          - >
+            You come upon a vast chasm.  The tattered remains of a roap bridge
+            hang over the edge.  A sign says "The Commonwealth of Aegagrus
+            Department of Public Works has recieved funding to repair the roap
+            bridge.  Construction is expected to be completed in March of
+            2015."
+    - regex:
+        - (?i)^(?P<verb>go|walk|explore)? ?south
+      code:
+        - send_text:
+          - "{{origin}}"
+          - "{% set verb=match.verb or 'go' %}You {{verb}} south"
+        - update_location:
+          - "{{origin}}"
+          - "Test Location #2"
 
 - name: nijotz
   parent: "Test Location #1"

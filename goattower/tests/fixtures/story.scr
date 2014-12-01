@@ -9,3 +9,12 @@ HELLO.*GOAT1
 .*boom.*
 >>> hi
 HELLO.*GOAT2
+>>> north
+>>> look
+.*bridge.*
+>>> south
+>>> look
+.*tower.*
+>>> south
+>>> look
+.*You are
