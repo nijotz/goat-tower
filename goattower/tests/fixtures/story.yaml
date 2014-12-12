@@ -58,12 +58,17 @@
       code:
         - send_text:
           - "{{origin}}"
-          - >
+          - |
             You come upon a vast chasm.  The tattered remains of a roap bridge
             hang over the edge.  A sign says "The Commonwealth of Aegagrus
             Department of Public Works has recieved funding to repair the roap
             bridge.  Construction is expected to be completed in March of
-            2015."
+            2015." The sign is posted to a large oak tree.  Engraved on the oak
+            tree are the following:
+            {% for engraving in actor.get_attribute('engravings')|fromjson %}
+            {{engraving}}{% endfor %}
+
+            At the base of the tree is a knife.
     - regex:
         - (?i)^(?P<verb>go|walk|explore)? ?south
       code:
@@ -73,6 +78,19 @@
         - update_location:
           - "{{origin}}"
           - "Test Location #2"
+    - regex:
+        - (?i)^(?P<verb>carve|cut|write) "?(?P<phrase>.*?)"?( (into|on) the tree)?$
+      code:
+        - send_text:
+          - "{{origin}}"
+          - You carve {{match.phrase}} into the tree
+        - append_attr_json:
+          - "Test Location #3"
+          - engravings
+          - "{{match.phrase}}"
+
+  attributes:
+    engravings: '["kilroy wuz here", "Q vs W 4ever"]'
 
 - name: nijotz
   parent: "Test Location #1"

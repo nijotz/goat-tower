@@ -9,12 +9,16 @@ def get_actor_id_by_name(name):
     # at my location
     return 4
 
+def from_json(json_str):
+    return json.loads(json_str)
+
 
 class API(object):
 
     def __init__(self):
         self.environment = Environment()
         self.environment.filters['get_actor_id_by_name'] = get_actor_id_by_name
+        self.environment.filters['fromjson'] = from_json
 
     def init(self, session):
         self.session = session
@@ -58,4 +62,12 @@ class API(object):
         actor = self.session.query(Actor).get(actor_id)
         location = self.session.query(Actor).filter(Actor.name == location).one()
         actor.parent_id = location.id
+        self.session.commit()
+
+    def append_attr_json(self, actor_name, attribute, item, context):
+        actor = self.session.query(Actor).filter(Actor.name == actor_name).one()
+        attribute = self.session.query(Attribute).filter(Attribute.actor_id == actor.id).one()
+        attr_json = json.loads(attribute.value)
+        attr_json.append(item)
+        attribute.value = json.dumps(attr_json)
         self.session.commit()
