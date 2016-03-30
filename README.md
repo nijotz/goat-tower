@@ -21,9 +21,9 @@ http://i.imgur.com/wQM9vkr.jpg
 1. pip install -r requirements.txt
 1. createdb goattower
 1. cd goattower
-1. python load.py objects/test_location.yaml yaml
-1. python cli.py 3 look
-1. python cli.py 3 north
+1. python load.py tests/fixtures/story.yaml yaml
+1. python cli.py nijotz look
+1. python cli.py nijotz north
 1. etc...
 
 <a name="design" />
