@@ -2,3 +2,4 @@ pexpect==3.3
 ipdbplugin==1.4.1
 ipdb==0.8
 coveralls
+nose
