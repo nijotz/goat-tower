@@ -1,4 +1,4 @@
-var output_buffer = 'Goat Tower Pre-Alpha 0.00 Early Access Preview Build 1';
+var output_buffer = 'Goat Tower Pre-Alpha 0.00 Early Access Preview Build 1\n';
 var output;
 var input_buffer = '';
 var input = '';
@@ -6,39 +6,35 @@ var input = '';
 function init() {
   output = document.getElementById('output');
   write_text();
-  read_text();
   blink_cursor();
+  prompt_user();
 }
 window.addEventListener('load', init, false );
 
 function write_text() {
-  if (output_buffer.length === 0) {
-    prompt_user();
+  setTimeout(write_text, 10);
+
+  var next_char;
+
+  // pop from output or input buffers
+  if (output_buffer.length > 0) {
+    next_char = output_buffer[0];
+    output_buffer = output_buffer.substring(1);
+  } else if (input_buffer.length > 0) {
+    next_char = input_buffer[0];
+    input_buffer = input_buffer.substring(1);
+  } else {
     return;
   }
 
-  // pop
-  var next_char = output_buffer[0];
-  output_buffer = output_buffer.substring(1);
-
-  // add to output
+  // Don't append after cursor if it's there
   if (output.value[output.value.length - 1] === '_') {
     output.value = output.value.slice(0, -1);
   }
+
+  // add to output
   output.value += next_char;
-  setTimeout(write_text, 10);
-}
-
-function read_text() {
-  setTimeout(read_text, 10);
-  if (input_buffer.length === 0) { return; }
-
-  // add to output
-  if (output.value[output.value.length - 1] === '_') {
-    output.value = output.value.slice(0, -1);
-  }
-  output.value += input_buffer;
-  input_buffer = '';
+  output.scrollTop = output.scrollHeight;
 }
 
 function blink_cursor(on) {
@@ -51,13 +47,13 @@ function blink_cursor(on) {
 }
 
 function prompt_user() {
-  output.value += '\n\n';
-  output.value += '> ';
-  output.value += input_buffer;
+  output_buffer += '\n';
+  output_buffer += '> ';
+  output_buffer += input_buffer;
   input_buffer = '';
 }
 
-function handle_input(event) {
+function read_text(event) {
   if (window.event) {
     key = event.charCode;
   } else if (e.which) {
@@ -74,7 +70,7 @@ function handle_input(event) {
   input_buffer += char;
   input += char;
 }
-document.onkeypress = handle_input;
+document.onkeypress = read_text;
 
 function handle_command() {
   run_command(input);
@@ -97,8 +93,8 @@ function run_command() {
       var output = JSON.parse(xhr.responseText);
       output.result.forEach(function(line) {
         output_buffer += line;
-        write_text();
       });
+      prompt_user();
     }
   }
 
