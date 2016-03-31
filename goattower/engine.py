@@ -76,11 +76,17 @@ class Engine(object):
     def get_text(self, actor_id):
         text_objs = self.session.query(PlayerText).\
             filter(PlayerText.actor_id == actor_id)
+
         text = []
         for text_obj in text_objs:
             text.append(text_obj.text)
             self.session.delete(text_obj)
+
         self.session.commit()
+
+        if not text[-1].endswith('\n'):
+            text[-1] += '\n'
+
         return text
 
     def run_code(self, actor_id, command, match):
