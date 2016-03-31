@@ -17,14 +17,13 @@
 
 body {
   background-color: #000;
-  margin-top: 5%;
-  margin-left: 5%;
-  width: 90%;
 }
 
 .aspect {
-  width: 100%;
-  padding-bottom: 65%;
+  margin-top: 2%;
+  margin-left: 10%;
+  width: 80%;
+  padding-bottom: 50%;
   position: relative;
 }
 
