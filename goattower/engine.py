@@ -84,7 +84,7 @@ class Engine(object):
 
         self.session.commit()
 
-        if not text[-1].endswith('\n'):
+        if text and not text[-1].endswith('\n'):
             text[-1] += '\n'
 
         return text
