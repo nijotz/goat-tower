@@ -72,6 +72,24 @@ function read_text(event) {
 }
 document.onkeypress = read_text;
 
+function handle_backspace(event) {
+
+  if (event.keyCode !== 8) { return; }
+
+  event.preventDefault();
+
+  if (!input.length > 0) { return; }
+
+  input = input.slice(0, -1);
+  input_buffer = input_buffer.slice(0, -1);
+
+  if (output.value[output.value.length - 1] === '_') {
+    output.value = output.value.slice(0, -1);
+  }
+  output.value = output.value.slice(0, -1);
+}
+document.onkeydown = handle_backspace;
+
 function handle_command() {
   run_command(input);
   input = '';
