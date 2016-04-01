@@ -2,4 +2,5 @@ psycopg2
 PyYAML
 sqlalchemy
 jinja2
-nose
+uwsgi
+flask
