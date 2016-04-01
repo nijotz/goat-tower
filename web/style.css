@@ -5,16 +5,6 @@
   font-style:normal;
 }
 
-* {
-  font-family: "basis33";
-  font-size: 22px;
-  font-smooth: never;
-  -webkit-font-smoothing : none;
-  margin: 0;
-  padding: 0;
-  outline: none;
-}
-
 body {
   background-color: #000;
 }
@@ -147,6 +137,11 @@ body {
 }
 
 .output {
+  font-family: "basis33";
+  font-size: 22px;
+  font-smooth: never;
+  -webkit-font-smoothing : none;
+
   resize: none;
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
