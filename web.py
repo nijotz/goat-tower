@@ -7,6 +7,7 @@ from goattower.models import Actor, User
 
 
 app = Flask(__name__, static_url_path='', static_folder='web')
+init()
 
 
 def create_name():
@@ -57,5 +58,4 @@ def api():
 
 
 if __name__ == '__main__':
-    init()
     app.run(debug=True)
