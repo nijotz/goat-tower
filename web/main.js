@@ -2,9 +2,11 @@ var output_buffer = 'Goat Tower Pre-Alpha 0.00 Early Access Preview Build 1\n';
 var output;
 var input_buffer = '';
 var input = '';
+var user = '';
 
 function init() {
   output = document.getElementById('output');
+  get_user();
   write_text();
   blink_cursor();
   prompt_user();
@@ -96,7 +98,9 @@ function handle_command() {
 }
 
 function command_json(cmd) {
-  return JSON.stringify( {'command': cmd, 'user': 'WebUser00001'} );
+  request = {'command': cmd}
+  if (user)  { request.user = user; }
+  return JSON.stringify(request);
 }
 
 function run_command() {
@@ -109,6 +113,7 @@ function run_command() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var output = JSON.parse(xhr.responseText);
+      set_user(output.user);
       output.result.forEach(function(line) {
         output_buffer += line;
       });
@@ -117,4 +122,12 @@ function run_command() {
   }
 
   xhr.send(json);
+}
+
+function get_user() {
+  user = Cookies.get('goatname');
+}
+
+function set_user(user) {
+  Cookies.set('goatname', user);
 }
