@@ -80,7 +80,7 @@
       code:
         - send_text:
           - "{{origin}}"
-          - You carve "{{match.phrase}}" into the tree
+          - You {{match.verb}} "{{match.phrase}}" into the tree
         - append_attr_json:
           - "Test Location #3"
           - engravings
