@@ -59,7 +59,7 @@
         - send_text:
           - "{{origin}}"
           - |
-            You come upon a vast chasm.  The tattered remains of a roap bridge hang over the edge.  A sign says "The Commonwealth of Aegagrus Department of Public Works has recieved funding to repair the roap bridge.  Construction is expected to be completed in March of 2015." The sign is posted to a large oak tree.  Engraved on the oak tree are the following:
+            You come upon a vast chasm.  The tattered remains of a rope bridge hang over the edge.  A sign says "The Commonwealth of Aegagrus Department of Public Works has recieved funding to repair the rope bridge.  Construction is expected to be completed in March of 2015." The sign is posted to a large oak tree.  Engraved on the oak tree are the following:
 
             {% for engraving in actor.get_attribute('engravings')|fromjson %}
             {{engraving}}
