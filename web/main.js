@@ -14,7 +14,7 @@ function init() {
 window.addEventListener('load', init, false );
 
 function write_text() {
-  setTimeout(write_text, 10);
+  setTimeout(write_text, 2);
 
   var next_char;
 

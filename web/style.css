@@ -51,11 +51,12 @@ body {
   box-shadow: inset 0px 0px 10px 10px rgba(0, 0, 0, .8);
   border-radius: 20px;
   z-index: 10;
-
+/*
   -webkit-animation: pulse 1s linear infinite;
      -moz-animation: pulse 1s linear infinite;
       -ms-animation: pulse 1s linear infinite;
           animation: pulse 1s linear infinite;
+*/
 }
 
 .screen:after {
@@ -118,10 +119,12 @@ body {
   -webkit-transform-origin: 50% 50%;
   -webkit-transform: perspective(1000px) skewX(3deg);
 
+/*
   -webkit-animation: vline 1.25s linear infinite;
      -moz-animation: vline 1.25s linear infinite;
       -ms-animation: vline 1.25s linear infinite;
           animation: vline 1.25s linear infinite;
+*/
 }
 
 .overlay {
